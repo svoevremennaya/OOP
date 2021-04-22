@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace lab_2
 {
-    [Serializable]
+    [DataContract]
     public class Laptop : Computers
     {
-        private bool num_lock;
+        [DataMember] private bool num_lock;
 
         public Laptop()
         {

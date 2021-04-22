@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace lab_2
 {
-    [Serializable]
+    [DataContract]
     public abstract class Computers : Technic
     {
-        private string processor;
-        private int memory;
+        [DataMember] private string processor;
+        [DataMember] private int memory;
 
         public Computers()
         {

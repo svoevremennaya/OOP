@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace lab_2
 {
-    [Serializable]
+    [DataContract]
     public abstract class Technic
     {
-        private int year_production;
-        private string brand;
-        private int price;
+        [DataMember] private int year_production;
+        [DataMember] private string brand;
+        [DataMember] private int price;
 
         public Technic()
         {

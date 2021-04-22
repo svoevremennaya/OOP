@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace lab_2
 {
-    [Serializable]
+    [DataContract]
     public class Smartphone : Mobile_phones
     {
-        private string screen_type;
+        [DataMember] private string screen_type;
 
         public Smartphone()
         {

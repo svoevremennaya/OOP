@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace lab_2
 {
-    [Serializable]
-    public class Button_phone : Mobile_phones
+    [DataContract]
+    public class ButtonPhone : Mobile_phones
     {
-        private bool camera;
+        [DataMember] private bool camera;
 
-        public Button_phone()
+        public ButtonPhone()
         {
             camera = false;
         }
 
-        public Button_phone(int year, string model, int num, string proc, int mem, string sim, bool cam) : base(year, model, num, proc, mem, sim)
+        public ButtonPhone(int year, string model, int num, string proc, int mem, string sim, bool cam) : base(year, model, num, proc, mem, sim)
         {
             camera = cam;
         }

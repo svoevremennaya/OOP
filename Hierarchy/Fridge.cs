@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace lab_2
 {
-    [Serializable]
+    [DataContract]
     public class Fridge : Technic
     {
-        private int useful_volume;
-        private int num_compressor;
+        [DataMember] private int useful_volume;
+        [DataMember] private int num_compressor;
 
         public Fridge()
         {

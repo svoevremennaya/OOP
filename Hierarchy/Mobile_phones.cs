@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace lab_2
 {
-    [Serializable]
+    [DataContract]
     public abstract class Mobile_phones : Computers
     {
-        private string sim_card;
+        [DataMember] private string sim_card;
 
         public Mobile_phones()
         {

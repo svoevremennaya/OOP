@@ -1,40 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 using System.Windows;
+using System.Xml;
 
 namespace lab_2
 {
     public class BinarySerialization
     {
-        BinaryFormatter binaryFormatter = new BinaryFormatter();
-
         public void Serialize(List<Technic> technics)
         {
-            using (FileStream fileStream = new FileStream("Technic.dat", FileMode.Create))
+            NetDataContractSerializer serializer = new NetDataContractSerializer();
+            FileStream fileStream = new FileStream("Technic.dat", FileMode.Create);
+
+            using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateBinaryWriter(fileStream))
             {
-                binaryFormatter.Serialize(fileStream, technics);
+                serializer.WriteObject(writer, technics);
             }
+            fileStream.Close();
         }
 
         public List<Technic> Deserialize()
         {
             List<Technic> technics = new List<Technic>();
+            NetDataContractSerializer serializer = new NetDataContractSerializer();
+            FileStream fileStream = new FileStream("Technic.dat", FileMode.Open);
+
             try
             {
-                using (FileStream fileStream = new FileStream("Technic.dat", FileMode.Open))
+                using (XmlDictionaryReader reader = XmlDictionaryReader.CreateBinaryReader(fileStream, XmlDictionaryReaderQuotas.Max))
                 {
-                    technics = (List<Technic>)binaryFormatter.Deserialize(fileStream);
+                    technics = (List<Technic>)serializer.ReadObject(reader);
                 }
             }
             catch
             {
                 MessageBox.Show("Deserialization error");
             }
+
+            fileStream.Close();
             return technics;
         }
     }
