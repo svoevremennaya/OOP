@@ -13,10 +13,6 @@
                 <RowDefinition Height="211*"/>
             </Grid.RowDefinitions>
             <ComboBox Name="classes" Height="30" VerticalAlignment="Top"  VerticalContentAlignment="Center" Margin="10,10,254,0" SelectionChanged="ComboBox_Selected">
-                <ComboBoxItem>Fridge</ComboBoxItem>
-                <ComboBoxItem>Laptop</ComboBoxItem>
-                <ComboBoxItem>Smartphone</ComboBoxItem>
-                <ComboBoxItem>ButtonPhone</ComboBoxItem>
             </ComboBox>
             <Grid x:Name="General_properties" Height="70" Margin="-18,50,180,88.8">
                 <Grid.ColumnDefinitions>

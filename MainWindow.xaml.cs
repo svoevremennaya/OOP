@@ -7,6 +7,7 @@ using System.Reflection;
 using System.IO;
 using Path = System.IO.Path;
 using System.Runtime.Serialization;
+using Interfaces;
 
 namespace lab_2
 {
@@ -17,9 +18,8 @@ namespace lab_2
     {
         object[] Parameters = new object[10];
         public List<UIElement> Components = new List<UIElement>();
-        [DataMember] public List<Technic> TechnicObjects = new List<Technic>();
-        public Dictionary<string, Creator> Factories = new Dictionary<string, Creator>();
-        public static Type[] typeObjList;
+        [DataMember] public List<ITechnic> TechnicObjects = new List<ITechnic>();
+        public Dictionary<string, ITechnicCreator> Factories = new Dictionary<string, ITechnicCreator>();
 
         BinarySerialization binarySerialization = new BinarySerialization();
         XMLSerialization XMLSerialization = new XMLSerialization();
@@ -37,16 +37,30 @@ namespace lab_2
             List<Type> typeList = new List<Type>();
             foreach (Type item in type)
             {
-                if (item.IsSubclassOf(typeof(Technic)))
+                if (item.IsSubclassOf(typeof(ITechnic)))
                 {
                     typeList.Add(item);
                 }
             }
 
-            typeObjList = new Type[typeList.Count];
-            for (int i = 0; i < typeList.Count; i++)
+            Assembly ass = Assembly.LoadFrom("TV.dll");
+            Type[] typePlugin = ass.GetTypes();
+            foreach (Type item in typePlugin)
             {
-                typeObjList[i] = typeList[i];
+                if (item.GetInterface("ITechnicCreator") != null)
+                {
+                    Factories.Add((item.Name).Substring(0, Math.Abs((item.Name).IndexOf("Creator"))), (ITechnicCreator)Activator.CreateInstance(item));
+                }
+            }
+
+            InitializeComboBox();
+        }
+
+        private void InitializeComboBox()
+        {
+            foreach (KeyValuePair<string, ITechnicCreator> item in Factories)
+            {
+                classes.Items.Add(item.Key);
             }
         }
 
@@ -69,8 +83,7 @@ namespace lab_2
         {
             foreach (string item in Factories.Keys)
             {
-                ComboBoxItem selectedItem = (ComboBoxItem)classes.SelectedItem;
-                if (item == selectedItem.Content.ToString())
+                if (item == (string)classes.SelectedItem)
                 {
                     TechnicObjects.Add(Factories[item].FactoryMethod(Parameters));
                     AddToListBox(Factories[item].Img, TechnicObjects.Count - 1);
@@ -180,10 +193,9 @@ namespace lab_2
 
         private void EnableComponents()
         {
-            switch (classes.SelectedIndex)
+            switch (classes.SelectedItem)
             {
-                //fridge
-                case 0:
+                case "Fridge":
                     use_vol.IsEnabled = true;
                     num_compr.IsEnabled = true;
                     proc.IsEnabled = false;
@@ -194,8 +206,7 @@ namespace lab_2
                     num.IsEnabled = false;
                     break;
 
-                //laptop
-                case 1:
+                case "Laptop":
                     use_vol.IsEnabled = false;
                     num_compr.IsEnabled = false;
                     proc.IsEnabled = true;
@@ -206,8 +217,7 @@ namespace lab_2
                     num.IsEnabled = true;
                     break;
 
-                //smartphone
-                case 2:
+                case "Smartphone":
                     use_vol.IsEnabled = false;
                     num_compr.IsEnabled = false;
                     proc.IsEnabled = true;
@@ -218,8 +228,7 @@ namespace lab_2
                     num.IsEnabled = false;
                     break;
 
-                //button_phone
-                case 3:
+                case "ButtonPhone":
                     use_vol.IsEnabled = false;
                     num_compr.IsEnabled = false;
                     proc.IsEnabled = true;
@@ -227,6 +236,17 @@ namespace lab_2
                     sim.IsEnabled = true;
                     screen.IsEnabled = false;
                     cam.IsEnabled = true;
+                    num.IsEnabled = false;
+                    break;
+
+                case "TV":
+                    use_vol.IsEnabled = false;
+                    num_compr.IsEnabled = false;
+                    proc.IsEnabled = false;
+                    mem.IsEnabled = false;
+                    sim.IsEnabled = false;
+                    screen.IsEnabled = true;
+                    cam.IsEnabled = false;
                     num.IsEnabled = false;
                     break;
             }
@@ -265,9 +285,9 @@ namespace lab_2
             }
         }
 
-        private void LoadObject(Technic obj)
+        private void LoadObject(ITechnic obj)
         {
-            classes.Text = (Convert.ToString(obj.GetType())).Substring(6);
+            classes.Text = (Convert.ToString(obj.GetType())).Substring(Math.Abs((Convert.ToString(obj.GetType())).LastIndexOf(".")) + 1);
             Object[] fields = obj.GetFields();
             int i = 0;
             

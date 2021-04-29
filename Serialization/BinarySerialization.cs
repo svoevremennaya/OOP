@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Interfaces;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -8,7 +9,7 @@ namespace lab_2
 {
     public class BinarySerialization
     {
-        public void Serialize(List<Technic> technics)
+        public void Serialize(List<ITechnic> technics)
         {
             NetDataContractSerializer serializer = new NetDataContractSerializer();
             FileStream fileStream = new FileStream("Technic.dat", FileMode.Create);
@@ -20,9 +21,9 @@ namespace lab_2
             fileStream.Close();
         }
 
-        public List<Technic> Deserialize()
+        public List<ITechnic> Deserialize()
         {
-            List<Technic> technics = new List<Technic>();
+            List<ITechnic> technics = new List<ITechnic>();
             NetDataContractSerializer serializer = new NetDataContractSerializer();
             FileStream fileStream = new FileStream("Technic.dat", FileMode.Open);
 
@@ -30,7 +31,7 @@ namespace lab_2
             {
                 using (XmlDictionaryReader reader = XmlDictionaryReader.CreateBinaryReader(fileStream, XmlDictionaryReaderQuotas.Max))
                 {
-                    technics = (List<Technic>)serializer.ReadObject(reader);
+                    technics = (List<ITechnic>)serializer.ReadObject(reader);
                 }
             }
             catch

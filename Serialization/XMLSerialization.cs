@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Interfaces;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
@@ -7,7 +8,7 @@ namespace lab_2
 {
     class XMLSerialization
     {      
-        public void Serialize(List<Technic> technics)
+        public void Serialize(List<ITechnic> technics)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
@@ -23,14 +24,14 @@ namespace lab_2
             fileStream.Close();
         }
 
-        public List<Technic> Deserialize()
+        public List<ITechnic> Deserialize()
         {
-            List<Technic> technics = new List<Technic>();
+            List<ITechnic> technics = new List<ITechnic>();
             NetDataContractSerializer serializer = new NetDataContractSerializer();
             FileStream fileStream = new FileStream("Technic.xml", FileMode.Open);
             using (XmlReader reader = XmlReader.Create(fileStream))
             {
-                technics = (List<Technic>)serializer.ReadObject(reader);
+                technics = (List<ITechnic>)serializer.ReadObject(reader);
             }
             fileStream.Close();
             return technics;

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Interfaces;
+using System;
 using System.Runtime.Serialization;
 
 namespace lab_2
 {
     [DataContract]
-    public abstract class Technic
+    public abstract class Technic : ITechnic
     {
         [DataMember] private int year_production;
         [DataMember] private string brand;
