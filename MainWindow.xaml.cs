@@ -43,15 +43,7 @@ namespace lab_2
                 }
             }
 
-            Assembly ass = Assembly.LoadFrom("TV.dll");
-            Type[] typePlugin = ass.GetTypes();
-            foreach (Type item in typePlugin)
-            {
-                if (item.GetInterface("ITechnicCreator") != null)
-                {
-                    Factories.Add((item.Name).Substring(0, Math.Abs((item.Name).IndexOf("Creator"))), (ITechnicCreator)Activator.CreateInstance(item));
-                }
-            }
+            Plugin.InitializePlugins(Factories);
 
             InitializeComboBox();
         }

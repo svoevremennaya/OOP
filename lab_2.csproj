@@ -66,6 +66,7 @@
     <Compile Include="Factories\SmartphoneCreator.cs" />
     <Compile Include="Hierarchy\Smartphone.cs" />
     <Compile Include="Hierarchy\Technic.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Serialization\BinarySerialization.cs" />
     <Compile Include="Serialization\XMLSerialization.cs" />
     <Page Include="MainWindow.xaml">
