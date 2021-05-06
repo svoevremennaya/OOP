@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_2"
         mc:Ignorable="d"
-        Title="OOP" Height="450" Width="820">
+        Title="OOP" Height="460" Width="820">
     <Grid x:Name="grid1">
         <Grid x:Name="Properties" HorizontalAlignment="Left" Width="573" Margin="10,0,0,0">
             <Grid.RowDefinitions>
@@ -111,8 +111,10 @@
                     <CheckBox Name="num" Width="100" Height="30" Margin="0 25" Content="Num lock" VerticalContentAlignment="Center"></CheckBox>
                 </Grid>
             </Grid>
-            <RadioButton Name="binary" Content="Binary" HorizontalAlignment="Left" Margin="279,33.2,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-            <RadioButton Name="xml" Content="XML" HorizontalAlignment="Left" Margin="279,53.2,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <Grid Margin="10,0.2,218,110" Grid.Row="1">
+                <RadioButton Name="binary" Content="Binary" HorizontalAlignment="Left" Margin="248,157,0,-73.2" VerticalAlignment="Top" Height="22"/>
+                <RadioButton Name="xml" Content="XML" HorizontalAlignment="Left" Margin="323,157,-20.2,-73.2" VerticalAlignment="Top" Height="22"/>
+            </Grid>
         </Grid>
         <Button x:Name="add" Content="Add" Width="100" Height="30" Click="add_Click" Margin="23,282,670.6,0" VerticalAlignment="Top"/>
         <Button x:Name="delete" Content="Delete" Width="100" Height="30" Click="delete_Click" VerticalAlignment="Top" Margin="23,330,670.6,0"/>
@@ -120,10 +122,13 @@
         <Button x:Name="accept_edit" Content="Accept changes" Width="100" Height="30" Click="accept_edit_Click" VerticalAlignment="Top" Margin="153,330,540.6,0"/>
         <Button x:Name="serialize" Content="Serialize" Width="100" Height="30" Click="serialize_Click" VerticalAlignment="Top" Margin="279,282,424.2,0"/>
         <Button x:Name="deserialize" Content="Deserialize" Width="100" Height="30" Click="deserialize_Click" VerticalAlignment="Top" Margin="279,330,424.2,0"/>
-        
+
 
         <Grid x:Name="Objects" HorizontalAlignment="Right">
             <ListBox Name="objects_lb" HorizontalAlignment="Right" Width="390" Margin="0,0,-0.4,0"/>
         </Grid>
+        <ComboBox Name="func_plug" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" Margin="284,243,0,0">
+            <ComboBoxItem Content="Nothing" ContentStringFormat=""/>
+        </ComboBox>
     </Grid>
 </Window>

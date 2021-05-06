@@ -20,6 +20,7 @@ namespace lab_2
         public List<UIElement> Components = new List<UIElement>();
         [DataMember] public List<ITechnic> TechnicObjects = new List<ITechnic>();
         public Dictionary<string, ITechnicCreator> Factories = new Dictionary<string, ITechnicCreator>();
+        public Dictionary<string, IFuncPlugin> FuncPlugins = new Dictionary<string, IFuncPlugin>();
 
         BinarySerialization binarySerialization = new BinarySerialization();
         XMLSerialization XMLSerialization = new XMLSerialization();
@@ -44,6 +45,7 @@ namespace lab_2
             }
 
             Plugin.InitializePlugins(Factories);
+            Plugin.InitializeFunctionalPlugins(FuncPlugins);
 
             InitializeComboBox();
         }
@@ -53,6 +55,11 @@ namespace lab_2
             foreach (KeyValuePair<string, ITechnicCreator> item in Factories)
             {
                 classes.Items.Add(item.Key);
+            }
+
+            foreach (KeyValuePair<string, IFuncPlugin> item in FuncPlugins)
+            {
+                func_plug.Items.Add(item.Key);
             }
         }
 
@@ -241,6 +248,17 @@ namespace lab_2
                     cam.IsEnabled = false;
                     num.IsEnabled = false;
                     break;
+
+                case "Tablet":
+                    use_vol.IsEnabled = false;
+                    num_compr.IsEnabled = false;
+                    proc.IsEnabled = true;
+                    mem.IsEnabled = true;
+                    sim.IsEnabled = false;
+                    screen.IsEnabled = true;
+                    cam.IsEnabled = false;
+                    num.IsEnabled = false;
+                    break;
             }
         }
 
@@ -349,10 +367,27 @@ namespace lab_2
             {
                 MessageBox.Show("Binary or XML???");
             }
+
+
+            if (func_plug.SelectedItem != null)
+            {
+                if (FuncPlugins.ContainsKey(Convert.ToString(func_plug.SelectedItem)))
+                {
+                    FuncPlugins[Convert.ToString(func_plug.SelectedItem)].Encrypt("Technic.xml");
+                }
+            }
         }
 
         private void deserialize_Click(object sender, RoutedEventArgs e)
         {
+            if (func_plug.SelectedItem != null)
+            {
+                if (FuncPlugins.ContainsKey(Convert.ToString(func_plug.SelectedItem)))
+                {
+                    FuncPlugins[Convert.ToString(func_plug.SelectedItem)].Decrypt("Technic.xml");
+                }
+            }
+
             if ((bool)binary.IsChecked)
             {
                 TechnicObjects = binarySerialization.Deserialize();

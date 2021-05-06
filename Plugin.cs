@@ -29,5 +29,25 @@ namespace lab_2
                 }
             }
         }
+
+        public static void InitializeFunctionalPlugins(Dictionary<string, IFuncPlugin> FuncPlugins)
+        {
+            string[] files = Directory.GetFiles("FunctionalPlugin", "*.dll");
+
+            foreach (string item in files)
+            {
+                Assembly assembly = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), item));
+                Type[] types = assembly.GetTypes();
+
+                foreach (Type type in types)
+                {
+                    if (type.GetInterface("IFuncPlugin") != null)
+                    {
+                        var creatorInstance = Activator.CreateInstance(type);
+                        FuncPlugins.Add(((IFuncPlugin)creatorInstance).Algorithm, (IFuncPlugin)Activator.CreateInstance(type));
+                    }
+                }
+            }
+        }
     }
 }
