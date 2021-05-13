@@ -8,6 +8,7 @@ using System.IO;
 using Path = System.IO.Path;
 using System.Runtime.Serialization;
 using Interfaces;
+using System.Xml.Serialization;
 
 namespace lab_2
 {
@@ -18,9 +19,10 @@ namespace lab_2
     {
         object[] Parameters = new object[10];
         public List<UIElement> Components = new List<UIElement>();
-        [DataMember] public List<ITechnic> TechnicObjects = new List<ITechnic>();
+        [DataMember] public static List<ITechnic> TechnicObjects = new List<ITechnic>();
         public Dictionary<string, ITechnicCreator> Factories = new Dictionary<string, ITechnicCreator>();
         public Dictionary<string, IFuncPlugin> FuncPlugins = new Dictionary<string, IFuncPlugin>();
+        public List<Type> TypeList = new List<Type>();
 
         BinarySerialization binarySerialization = new BinarySerialization();
         XMLSerialization XMLSerialization = new XMLSerialization();
@@ -35,12 +37,11 @@ namespace lab_2
             Type[] type = assembly.GetTypes();
             GenerateFactoryList(type);
 
-            List<Type> typeList = new List<Type>();
             foreach (Type item in type)
             {
                 if (item.IsSubclassOf(typeof(ITechnic)))
                 {
-                    typeList.Add(item);
+                    TypeList.Add(item);
                 }
             }
 
@@ -368,7 +369,6 @@ namespace lab_2
                 MessageBox.Show("Binary or XML???");
             }
 
-
             if (func_plug.SelectedItem != null)
             {
                 if (FuncPlugins.ContainsKey(Convert.ToString(func_plug.SelectedItem)))
@@ -422,7 +422,7 @@ namespace lab_2
             try
             {
                 if (classes.SelectedIndex == -1)
-                    return false;
+                    return false;   
                 Convert.ToInt32(price_tb.Text);
                 if (use_vol.IsEnabled)
                     Convert.ToInt32(use_vol.Text);

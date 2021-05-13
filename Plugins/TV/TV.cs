@@ -16,6 +16,14 @@ namespace TV
         [DataMember] public int Price { get; set; }
         [DataMember] public string Screen_type { get; set; }
 
+        public TV()
+        {
+            Year_production = 0;
+            Brand = "";
+            Price = 0;
+            Screen_type = "";
+        }
+
         public TV(int year, string model, int num, string size)
         {
             Year_production = year;

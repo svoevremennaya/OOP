@@ -41,7 +41,7 @@ namespace lab_2
 
                 foreach (Type type in types)
                 {
-                    if (type.GetInterface("IFuncPlugin") != null)
+                    if (type.GetInterface("Interfaces.IFuncPlugin") != null)
                     {
                         var creatorInstance = Activator.CreateInstance(type);
                         FuncPlugins.Add(((IFuncPlugin)creatorInstance).Algorithm, (IFuncPlugin)Activator.CreateInstance(type));
